@@ -1,0 +1,126 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="hamburger-menu">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        --paper-dialog: {
+          width: 60%;
+          height: 70%;
+        }
+      }
+      
+      #menu {
+        width: 48px;
+        height: 48px;
+        position: relative;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: .25s ease-in-out;
+        -moz-transition: .25s ease-in-out;
+        -o-transition: .25s ease-in-out;
+        transition: .25s ease-in-out;
+        cursor: pointer;
+      }
+      
+      #menu span {
+        display: block;
+        position: absolute;
+        height: 9px;
+        width: 100%;
+        background: var(--primary-color);
+        border-radius: 9px;
+        opacity: 1;
+        left: 0;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: .25s ease-in-out;
+        -moz-transition: .25s ease-in-out;
+        -o-transition: .25s ease-in-out;
+        transition: .25s ease-in-out;
+      }
+      
+      #menu span:nth-child(1) {
+        top: 0px;
+      }
+      
+      #menu span:nth-child(2) {
+        top: 18px;
+      }
+      
+      #menu span:nth-child(3) {
+        top: 36px;
+      }
+      
+      #menu.open span:nth-child(1) {
+        top: 18px;
+        -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+        -o-transform: rotate(135deg);
+        transform: rotate(135deg);
+      }
+      
+      #menu.open span:nth-child(2) {
+        opacity: 0;
+        left: -60px;
+      }
+      
+      #menu.open span:nth-child(3) {
+        top: 18px;
+        -webkit-transform: rotate(-135deg);
+        -moz-transform: rotate(-135deg);
+        -o-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+      }
+    </style>
+    <div id="menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <paper-dialog id="options" no-cancel-on-outside-click no-cancel-on-esc-key entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <h2>Options comes here!</h2>
+    </paper-dialog>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'hamburger-menu',
+
+        listeners: {
+          'menu.tap': 'toggleMenu'
+        },
+
+        toggleMenu: function(e) {
+          Polymer.Base.toggleClass('open', !this.open, this.$.menu);
+          this.open = !this.open;
+          this.$.options.toggle();
+        },
+
+        properties: {
+          open: {
+            type: Boolean,
+            value: false
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

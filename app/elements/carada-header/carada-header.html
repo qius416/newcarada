@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="carada-header">
+  <template>
+    <style>
+      :host {
+        margin: 0 2em 0 2em;
+        display: block;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        @apply(--layout-center);
+      }
+      
+      .offline {
+        color: var(--disabled-text-color);
+        background: var(--disabled-background-color);
+      }
+      
+      h1 {
+        font-size: 3em;
+        font-family: 'Rancho';
+      }
+    </style>
+
+    <div>
+      <paper-fab id="user" icon="carada:profile"></paper-fab>
+      <adviser-profile id="profile" online="{{online}}"></adviser-profile>
+    </div>
+    <h1 class="font-effect-shadow-multiple">{{title}}</h1>
+    <hamburger-menu></hamburger-menu>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'carada-header',
+
+        listeners: {
+          'user.tap': '_toggleProfile'
+        },
+
+        _toggleProfile: function(e) {
+          this.$.profile.toggle();
+        },
+
+        _onlineOffline: function() {
+          if (this.online) {
+            //Polymer.Base.toggleClass('offline', false, this.$.user);
+          } else {
+            //Polymer.Base.toggleClass('offline', true, this.$.user);
+          }
+        },
+
+        properties: {
+          online: {
+            type: Boolean,
+            value: true,
+            observer: '_onlineOffline'
+          },
+          title: {
+            type: String,
+            value: 'Carada'
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

@@ -1,0 +1,116 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="adviser-profile">
+  <template>
+    <style include="shared-styles">
+      :host {
+        position: absolute;
+        display: none;
+        --paper-card: {
+          width: 300px;
+        }
+        ;
+        z-index:999;
+      }
+      
+      div#status {
+        @apply(--layout-justified);
+        @apply(--layout-horizontal);
+      }
+    </style>
+    <paper-card heading="Profile" image="../../images/welcome.png">
+      <div class="card-content">
+        <div id="status">
+          <paper-toggle-button id="switch" checked="[[online]]"></paper-toggle-button><span></span>
+          <h4 id="statusFlag">online</h4>
+        </div>
+        <h3>test-user</h3>
+      </div>
+      <div class="card-actions">
+        <paper-button raised primary>button1</paper-button>
+        <paper-button raised secondary>button2</paper-button>
+      </div>
+    </paper-card>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'adviser-profile',
+
+        behaviors: [
+          Polymer.NeonAnimationRunnerBehavior
+        ],
+
+        properties: {
+          animating: {
+            type: Boolean,
+            value: false
+          },
+          opened: {
+            type: Boolean,
+            value: false
+          },
+          online: {
+            type: Boolean,
+            notify: true
+          },
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this
+                },
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this
+                }
+              }
+            }
+          }
+        },
+
+        listeners: {
+          'neon-animation-finish': '_onNeonAnimationFinish',
+          'switch.change': '_switchOnOffLine'
+        },
+
+        toggle: function() {
+          if (!this.animating) {
+            this.animating = true;
+            this.opened = !this.opened;
+            if (this.opened) {
+              this.style.display = 'inline-block';
+              this.playAnimation('entry');
+            } else {
+              this.playAnimation('exit');
+              this.style.display = 'none';
+            }
+          }
+        },
+
+        _onNeonAnimationFinish: function(e) {
+          this.animating = false;
+        },
+
+        _switchOnOffLine: function(e) {
+          this.online = this.$.switch.active;
+          this.$.statusFlag.textContent = this.online ? 'online' : 'offline';
+        }
+
+      });
+    })();
+  </script>
+</dom-module>
