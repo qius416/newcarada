@@ -1,0 +1,10 @@
+{
+  "number": 1,
+  "string": "lalala1",
+  "boolean": true,
+  "object": {
+    "field1": "haha",
+    "field2": "haha2"
+  },
+  "array": [ 1, 2, 3, 4 ]
+}

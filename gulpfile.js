@@ -238,14 +238,27 @@ gulp.task( 'serve', [ 'styles', 'elements' ], function () {
     // https: true,
     server: {
       baseDir: [ '.tmp', 'app' ],
-      middleware: [ historyApiFallback() ]
-    }
+      routes: {
+        "/api": "data"
+      },
+      middleware: [ historyApiFallback(), function ( req, res, next ) {
+        if ( req.url.startsWith( '/api' ) ) {
+          setTimeout( function ( n ) {
+            n();
+          }, 3000, next );
+        } else {
+          next();
+        }
+      } ]
+    },
+    files: "data/*.json"
   } );
 
   gulp.watch( [ 'app/**/*.html' ], reload );
   gulp.watch( [ 'app/styles/**/*.css' ], [ 'styles', reload ] );
   gulp.watch( [ 'app/elements/**/*.css' ], [ 'elements', reload ] );
   gulp.watch( [ 'app/images/**/*' ], reload );
+  gulp.watch( [ 'data/**/*' ], reload );
 } );
 
 // Build and serve the output from the dist build
